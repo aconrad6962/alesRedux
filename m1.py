@@ -3,6 +3,7 @@ from astropy.io import fits
 from glob import glob
 from scipy.ndimage import rotate
 from bldBg import buildBackground
+from bldTl import buildTelluric
 from sys import argv
 
 script, epoch = argv
@@ -42,7 +43,11 @@ for i in range(median_cube.shape[0]):
 
 model_cube = buildBackground( rotated_cube )
 
-final_cube = rotated_cube - model_cube
+bgdiv_cube = rotated_cube / model_cube 
+
+tellc_cube = buildTelluric  ( rotated_cube )
+
+final_cube = bgdiv_cube / tellc_cube 
 
 # Copy header from first file
 with fits.open(files[0]) as hdul:

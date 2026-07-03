@@ -13,7 +13,8 @@ def solSpec( min, max ):
 
   solar_flux = planck_lambda(wave_m, T_sun)
 
-  # Normalize
-  solar_flux /= np.nanmedian(solar_flux)
+  # Normalize (important!)
+# solar_flux /= np.nanmedian(solar_flux)
+  solar_flux /= np.max(np.abs(solar_flux))
 
   return wave, solar_flux
